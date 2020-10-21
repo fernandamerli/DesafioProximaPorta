@@ -31,9 +31,9 @@ def delivery_list(request):
             return JsonResponse(delivery_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(delivery_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['POST'])
 def delivery_process(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         map_name = body['map_name']
@@ -41,16 +41,19 @@ def delivery_process(request):
         destination = body['destination']
         truck_range = body['truck_range']
         fuel_cost = body['fuel_cost']
-        
+
         if map_name == "" or map_name == "[]" or map_name is None:
-            return JsonResponse('Invalid Parameters', safe=False)
+            return JsonResponse("Invalid Parameters", status=status.HTTP_400_BAD_REQUEST, safe=False)
 
         deliveries = Delivery.objects.all()
         deliveries = deliveries.filter(map_name__icontains=map_name)
+        if deliveries.count() == 0:
+            return JsonResponse("Invalid Parameters: map name not found", status=status.HTTP_400_BAD_REQUEST, safe=False)
+        
         deliveries_serializer = DeliverySerializer(deliveries, many=True)
         deliveries = dict(deliveries_serializer.data[0])['routes']
 
-        nodes = set([origin,destination])
+        nodes = set([origin, destination])
         g = Graph()
         for delivery in deliveries:
             route = list(delivery.items())
