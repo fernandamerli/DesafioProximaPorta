@@ -1,7 +1,7 @@
 from django.db import models
 
 class Delivery(models.Model):
-    map_name = models.CharField(max_length=70, blank=False, default='')
+    map_name = models.CharField(max_length=70, blank=False, default='', unique=True)
 
 class Route(models.Model):
     delivery = models.ForeignKey(Delivery, related_name='routes', on_delete=models.CASCADE)
