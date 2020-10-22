@@ -1,5 +1,9 @@
 # Desafio Próxima Porta
 
+## Motivação
+#### Desenvolvi o código em Django, conforme sugerido, e utilizei o Django Rest Framework para as APIs. Para a persistência dos mapas, fiz integração com o MySQL e estruturei os dados em duas tabelas. Por fim, utilizei o pytest para testar as requisições.
+#### Por serem ferramentas novas para mim, tive algumas dificuldades durante o desenvolvimento da solução, mas gostei bastante de ter sido desafiada!
+
 ## APIs desenvolvidas para o desafio proposto
 
 ### *delivery_list*: recuperar e popular a base de dados
